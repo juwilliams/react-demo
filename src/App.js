@@ -1,25 +1,20 @@
-import logo from './logo.svg';
+import React from 'react';
+import {RepositoryProvider} from 'state/repository.state';
+import Repository from 'components/repository';
+
 import './App.css';
 
-function App() {
+const REPOSITORY = 'https://api.github.com/repos/divvydose/fe-coding-challenge';
+
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header className="App-header">Github Repository</header>
+      <RepositoryProvider>
+        <Repository path={REPOSITORY} />
+      </RepositoryProvider>
     </div>
   );
-}
+};
 
 export default App;
