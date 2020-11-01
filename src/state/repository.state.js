@@ -4,10 +4,20 @@ const RepositoryStateContext = React.createContext();
 const RepositoryDispatchContext = React.createContext();
 
 const actionTypes = {
+  SET_ERROR: 'repository/ERROR',
+  SET_LOADING: 'repository/LOADING',
   SET_REPOSITORY_PULLS: 'repository/SET_PULLS',
 };
 
 export const actions = {
+  setError: (payload) => ({
+    type: actionTypes.SET_ERROR,
+    payload,
+  }),
+  setLoading: (payload) => ({
+    type: actionTypes.SET_LOADING,
+    payload,
+  }),
   setRepositoryPulls: (payload) => ({
     type: actionTypes.SET_REPOSITORY_PULLS,
     payload,
@@ -15,15 +25,24 @@ export const actions = {
 };
 
 const defaultState = {
+  error: undefined,
+  isLoading: false,
   pulls: [],
 };
 const repositoryReducer = (state, action) => {
   const nextState = Object.assign({}, state);
 
   switch (action.type) {
+    case actionTypes.SET_LOADING: {
+      nextState.isLoading = action.payload;
+      break;
+    }
     case actionTypes.SET_REPOSITORY_PULLS: {
       nextState.pulls = action.payload;
-
+      break;
+    }
+    case actionTypes.SET_ERROR: {
+      nextState.error = action.payload;
       break;
     }
     default:
