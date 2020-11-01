@@ -5,6 +5,7 @@ const RepositoryDispatchContext = React.createContext();
 
 const actionTypes = {
   SET_ERROR: 'repository/ERROR',
+  SET_FILTER: 'repository/SET_FILTER',
   SET_LOADING: 'repository/LOADING',
   SET_REPOSITORY_PULLS: 'repository/SET_PULLS',
 };
@@ -12,6 +13,10 @@ const actionTypes = {
 export const actions = {
   setError: (payload) => ({
     type: actionTypes.SET_ERROR,
+    payload,
+  }),
+  setFilter: (payload) => ({
+    type: actionTypes.SET_FILTER,
     payload,
   }),
   setLoading: (payload) => ({
@@ -28,6 +33,7 @@ const defaultState = {
   error: undefined,
   isLoading: false,
   pulls: [],
+  filter: undefined,
 };
 const repositoryReducer = (state, action) => {
   const nextState = Object.assign({}, state);
@@ -35,6 +41,10 @@ const repositoryReducer = (state, action) => {
   switch (action.type) {
     case actionTypes.SET_LOADING: {
       nextState.isLoading = action.payload;
+      break;
+    }
+    case actionTypes.SET_FILTER: {
+      nextState.filter = action.payload;
       break;
     }
     case actionTypes.SET_REPOSITORY_PULLS: {

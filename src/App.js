@@ -11,7 +11,7 @@ import './App.css';
 const App = () => {
   return (
     <div className="App">
-      <header className="App-header">Github Repository</header>
+      <header className="App-header">Github Repository Pull Inspector</header>
       <RepositoryProvider>
         <Router>
           <Route exact path="/pulls/:id" component={PullScreen} />

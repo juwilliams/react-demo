@@ -4,29 +4,31 @@ import {actions, useRepository} from 'state/repository.state';
 
 import axios from 'axios';
 
-const Repository = ({path}) => {
+const GITHUB_REPO_API_URI = 'https://api.github.com/repos';
+
+const Repository = ({repo}) => {
   const [state, dispatch] = useRepository();
 
-  const {pulls} = state;
-
-  const fetchPulls = async () => {
-    try {
-      dispatch(actions.setLoading(true));
-      const response = await axios(`${path}/pulls`);
-      if (response && response.status === 200) {
-        console.log('response', response);
-        dispatch(actions.setRepositoryPulls(response.data));
-      }
-    } catch (err) {
-      dispatch(actions.setError(err));
-    } finally {
-      dispatch(actions.setLoading(false));
-    }
-  };
+  const {filter, pulls} = state;
 
   useEffect(() => {
+    const fetchPulls = async () => {
+      try {
+        dispatch(actions.setLoading(true));
+        const response = await axios(`${GITHUB_REPO_API_URI}/${repo}/pulls?q=${filter}`);
+        if (response && response.status === 200) {
+          console.log('response', response);
+          dispatch(actions.setRepositoryPulls(response.data));
+        }
+      } catch (err) {
+        dispatch(actions.setError(err));
+      } finally {
+        dispatch(actions.setLoading(false));
+      }
+    };
+
     fetchPulls();
-  }, []);
+  }, [filter, dispatch, repo]);
 
   return (
     <div className="repositories">
