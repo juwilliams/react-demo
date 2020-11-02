@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 
-import {actions, useRepositoryDispatch} from 'state/repository.state';
-
-const SEARCH_URL = 'https://api.github.com/search/issues';
+import {fetchPulls, fetchPullsByFilter} from 'api/github';
+import {useRepositoryDispatch} from 'state/repository.state';
 
 const sections = {
   root: styled.div`
@@ -64,23 +62,18 @@ const sections = {
 
 const Search = ({repo}) => {
   const dispatch = useRepositoryDispatch();
+
   const [searchTerm, setSearchTerm] = useState('');
 
   const fetchSearchResults = async (query) => {
-    try {
-      let response;
-
-      if (Boolean(query)) {
-        response = await axios(`${SEARCH_URL}?q=repo:${repo}+${query}&type=pr`);
-      } else {
-        response = await axios(`${SEARCH_URL}?q=repo:${repo}&type=pr`);
-      }
-
-      if (response && response.status === 200) {
-        dispatch(actions.setRepositoryPulls(response.data.items));
-      }
-    } catch (err) {
-      console.log('search error', err);
+    if (Boolean(query)) {
+      fetchPullsByFilter({
+        repo,
+        dispatch,
+        filter: `repo:${repo}+${query}&type=pr`,
+      });
+    } else {
+      fetchPulls({repo, dispatch});
     }
   };
 

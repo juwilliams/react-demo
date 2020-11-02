@@ -23,6 +23,7 @@ const PullScreen = () => {
   }, [isLoading, dispatch, pulls, repoId]);
 
   useEffect(() => {
+    console.log('pull', pull, 'commits', commits, 'isLoading', isLoading);
     if (pull && !commits && !isLoading) {
       fetchCommits({url: pull.commits_url, dispatch});
     }
