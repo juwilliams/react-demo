@@ -5,4 +5,4 @@ Fetches and displays repository pull data from Github API
 start the app
 
 ## `npm run test
-run app tests
+run app tests, choose 'a' to run all tests
