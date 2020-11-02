@@ -43,6 +43,7 @@ const sections = {
   `,
   searchInfo: styled.a`
     color: #fff;
+    font-size: 0.8rem;
   `,
 };
 

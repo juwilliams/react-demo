@@ -12,17 +12,20 @@ const sections = {
     display: inline-flex;
     flex-direction: column;
     text-align: left;
-    border: 2px solid #eee;
+    border: 1px solid #ebebeb;
     border-radius: 6px;
     margin-top: 1rem;
+    min-width: 320px;
+    max-width: 800px;
   `,
   title: styled.div`
     ${baseStyles};
-    background-color: #eee;
+    background-color: #f5f5f5;
+    font-weight: 700;
   `,
   body: styled.div`
     ${baseStyles};
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #ebebeb;
   `,
   commits: styled.div`
     ${baseStyles};
