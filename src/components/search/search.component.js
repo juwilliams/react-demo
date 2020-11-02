@@ -66,9 +66,16 @@ const Search = ({repo}) => {
   const dispatch = useRepositoryDispatch();
   const [searchTerm, setSearchTerm] = useState(undefined);
 
-  const fetchSearchResults = async () => {
+  const fetchSearchResults = async (query) => {
     try {
-      const response = await axios(`${SEARCH_URL}?q=repo:${repo}+${searchTerm}&type=pr`);
+      let response;
+
+      if (query) {
+        response = await axios(`${SEARCH_URL}?q=repo:${repo}+${query}&type=pr`);
+      } else {
+        response = await axios(`${SEARCH_URL}?q=repo:${repo}&type=pr`);
+      }
+
       if (response && response.status === 200) {
         dispatch(actions.setRepositoryPulls(response.data.items));
       }
@@ -78,12 +85,11 @@ const Search = ({repo}) => {
   };
 
   const handleFilterPullsClick = () => {
-    fetchSearchResults();
+    fetchSearchResults(searchTerm);
   };
 
   const handleResetFilterClick = () => {
-    setSearchTerm(undefined);
-    fetchSearchResults();
+    fetchSearchResults(undefined);
   };
 
   return (
