@@ -13,7 +13,7 @@ const App = () => {
     <div className="App">
       <RepositoryProvider>
         <Router>
-          <Route exact path="/repo/:repoId/pulls/:id" component={PullScreen} />
+          <Route exact path="/repo/:repoId/pulls/:number" component={PullScreen} />
           <Route exact path="/" component={RepositoryScreen} />
         </Router>
       </RepositoryProvider>

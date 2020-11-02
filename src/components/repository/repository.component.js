@@ -64,7 +64,7 @@ const Pull = ({repo, pull}) => {
     <sections.pull data-testid={pull.id}>
       <sections.pullTitle>
         <Link
-          to={`/repo/${encodeURIComponent(repo)}/pulls/${pull.id}`}
+          to={`/repo/${encodeURIComponent(repo)}/pulls/${pull.number}`}
           data-testid={`link-${pull.id}`}>
           {pull.title}
         </Link>
