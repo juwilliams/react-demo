@@ -2,6 +2,7 @@ import React from 'react';
 import styled, {css} from 'styled-components';
 
 import Commits from 'components/commits/commits.component';
+
 const baseStyles = css`
   padding: 1rem;
 `;
@@ -36,7 +37,7 @@ const Pull = ({pull, commits}) => {
       <sections.title data-testid="pull-title">{pull.title}</sections.title>
       <sections.body data-testid="pull-body">{pull.body}</sections.body>
       <sections.commits data-testid="pull-commits">
-        <Commits url={pull.commits_url} commits={commits} />
+        <Commits commits={commits} />
       </sections.commits>
     </sections.root>
   );

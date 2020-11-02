@@ -41,11 +41,13 @@ export const Commit = ({data}) => {
   const {author, commit} = data;
 
   return (
-    <sections.commit>
-      <sections.commitMessage>{commit?.message}</sections.commitMessage>
+    <sections.commit data-testid="commit">
+      <sections.commitMessage data-testid="commit-message">
+        {commit?.message}
+      </sections.commitMessage>
       <sections.commitAuthored>
-        <sections.commitAuthor>{author?.login}</sections.commitAuthor>
-        <sections.commitDate>
+        <sections.commitAuthor data-testid="commit-author">{author?.login}</sections.commitAuthor>
+        <sections.commitDate data-testid="commit-date">
           {'committed on '}
           {moment(commit?.committer?.date).format('MMM DD YYYY hh:mm:ss')} (
           {moment(commit?.committer?.date).fromNow()})
