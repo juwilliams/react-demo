@@ -34,6 +34,7 @@ const sections = {
     list-style: none;
     padding: 0;
     text-align: left;
+    min-width: 600px;
 
     @media (max-width: 420px) {
       margin: 0;
@@ -56,6 +57,9 @@ const sections = {
     font-size: 0.8rem;
     padding: 0.4rem 0.6rem;
     margin: 0 1rem;
+  `,
+  nodata: styled.div`
+    text-align: center;
   `,
 };
 
@@ -84,6 +88,9 @@ const Repository = ({repo, pulls}) => {
         <sections.title>Pull Requests</sections.title>
       </sections.header>
       <sections.pulls>
+        {(!pulls || pulls.length === 0) && (
+          <sections.nodata>No pull requests found</sections.nodata>
+        )}
         {pulls &&
           pulls.map((pull) => <Pull key={`pull-list-item-${pull.id}`} repo={repo} pull={pull} />)}
       </sections.pulls>

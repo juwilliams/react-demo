@@ -13,7 +13,6 @@ const PullScreen = () => {
 
   const {isLoading, error, pulls, commits} = state;
   const pull = pulls?.find((p) => p.number.toString() === number);
-  console.log('state', state, repoId, number, pull);
 
   useEffect(() => {
     fetchBatchPullData({repo: decodeURIComponent(repoId), dispatch, number});
