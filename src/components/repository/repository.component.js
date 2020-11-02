@@ -1,12 +1,10 @@
 import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import styled, {css} from 'styled-components';
 import moment from 'moment';
 
-import {actions, useRepository} from 'state/repository.state';
-
-const GITHUB_REPO_API_URI = 'https://api.github.com/repos';
+import {fetchPulls} from 'api/github';
+import {useRepository} from 'state/repository.state';
 
 const baseStyles = {
   pullData: css`
@@ -55,11 +53,11 @@ const sections = {
   `,
 };
 
-const Pull = ({pull}) => {
+const Pull = ({repo, pull}) => {
   return (
-    <sections.pull key={`pull-list-item-${pull.id}`}>
+    <sections.pull>
       <sections.pullTitle>
-        <Link to={`/pulls/${pull.id}`}>{pull.title}</Link>
+        <Link to={`/repo/${encodeURIComponent(repo)}/pulls/${pull.id}`}>{pull.title}</Link>
       </sections.pullTitle>
       <sections.pullCreatedAt>{moment(pull.created_at).fromNow()}</sections.pullCreatedAt>
       {pull.labels?.map((label) => (
@@ -72,32 +70,24 @@ const Pull = ({pull}) => {
 const Repository = ({repo}) => {
   const [state, dispatch] = useRepository();
 
-  const {filter, pulls} = state;
+  const {isLoading, error, filter, pulls} = state;
 
   useEffect(() => {
-    const fetchPulls = async () => {
-      try {
-        dispatch(actions.setLoading(true));
-        const response = await axios(`${GITHUB_REPO_API_URI}/${repo}/pulls?q=${filter}`);
-        if (response && response.status === 200) {
-          dispatch(actions.setRepositoryPulls(response.data));
-        }
-      } catch (err) {
-        dispatch(actions.setError(err));
-      } finally {
-        dispatch(actions.setLoading(false));
-      }
-    };
-
-    fetchPulls();
+    fetchPulls({repo, dispatch});
   }, [filter, dispatch, repo]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Oops.. something went wrong</div>;
 
   return (
     <sections.root>
       <sections.header>
         <sections.title>Pull Requests</sections.title>
       </sections.header>
-      <sections.pulls>{pulls && pulls.map((pull) => <Pull pull={pull} />)}</sections.pulls>
+      <sections.pulls>
+        {pulls &&
+          pulls.map((pull) => <Pull key={`pull-list-item-${pull.id}`} repo={repo} pull={pull} />)}
+      </sections.pulls>
     </sections.root>
   );
 };

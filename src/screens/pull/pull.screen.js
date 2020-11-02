@@ -4,10 +4,10 @@ import {useParams} from 'react-router-dom';
 import Pull from 'components/pull/pull.component';
 
 const PullScreen = () => {
-  const {id} = useParams();
+  const {repoId, id} = useParams();
   return (
     <>
-      <Pull id={id} />
+      <Pull repo={decodeURIComponent(repoId)} id={id} />
     </>
   );
 };

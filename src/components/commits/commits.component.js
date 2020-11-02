@@ -1,7 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React, {useEffect} from 'react';
 import moment from 'moment';
 import styled, {css} from 'styled-components';
+
+import {fetchCommits} from 'api/github';
+
+import {actions, useRepository} from 'state/repository.state';
 
 const baseStyles = css`
   margin-bottom: 0.4rem;
@@ -57,36 +60,26 @@ export const Commit = ({data}) => {
 };
 
 const Commits = ({url}) => {
-  const [commits, setCommits] = useState([]);
-  //    setting this to true initially as a demount/mount should presume a fetch will happen
-  const [isFetchingCommits, setIsFetchingCommits] = useState(true);
-  const [error, setError] = useState(undefined);
+  const [state, dispatch] = useRepository();
+
+  const {isLoading, error, commits} = state;
 
   useEffect(() => {
-    const fetchCommits = async () => {
-      try {
-        const response = await axios(url);
-        if (response && response.status === 200) {
-          console.log('commits response', response.data);
-          setCommits(response.data);
-        }
-      } catch (err) {
-        setError('Looks like something went wrong fetching commits..');
-      } finally {
-        setIsFetchingCommits(false);
-      }
-    };
-    if (url) {
-      fetchCommits();
+    if (url && !commits && !isLoading) {
+      fetchCommits({url, dispatch});
     }
-  }, [url]);
+    return () => dispatch(actions.setCommits(undefined));
+  }, [isLoading, commits, dispatch, url]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Oops.. something went wrong.</div>;
 
   return (
     <sections.root>
       <sections.title>Commits</sections.title>
-      {isFetchingCommits && <div>Fetching commits...</div>}
+      {isLoading && <div>Fetching commits...</div>}
       {error && <div>{error}</div>}
-      {commits.map((data) => (
+      {commits?.map((data) => (
         <Commit key={data.commit.tree.sha} data={data} />
       ))}
     </sections.root>

@@ -17,7 +17,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <RepositoryProvider>
           <Router>
-            <Route exact path="/pulls/:id" component={PullScreen} />
+            <Route exact path="/repo/:repoId/pulls/:id" component={PullScreen} />
             <Route exact path="/" component={RepositoryScreen} />
           </Router>
         </RepositoryProvider>
