@@ -1,10 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import moment from 'moment';
 import styled, {css} from 'styled-components';
-
-import {fetchCommits} from 'api/github';
-
-import {actions, useRepository} from 'state/repository.state';
 
 const baseStyles = css`
   margin-bottom: 0.4rem;
