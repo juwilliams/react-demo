@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import moment from 'moment';
 import styled, {css} from 'styled-components';
+
+import {actions, useRepositoryDispatch} from 'state/repository.state';
 
 const baseStyles = css`
   margin-bottom: 0.4rem;
@@ -16,6 +18,7 @@ const sections = {
     background-color: #eff5fb;
     border-radius: 6px;
     padding: 0.6rem 1rem;
+    margin-bottom: 1rem;
   `,
   commitTitle: styled.h5``,
   commitMessage: styled.div`
@@ -38,7 +41,14 @@ const sections = {
 };
 
 export const Commit = ({data}) => {
+  const dispatch = useRepositoryDispatch();
+
   const {author, commit} = data;
+
+  useEffect(() => {
+    //  unload commits on dismount to ensure correct commits are loaded when not deep linking
+    return () => dispatch(actions.setCommits(undefined));
+  }, [dispatch]);
 
   return (
     <sections.commit data-testid="commit">
