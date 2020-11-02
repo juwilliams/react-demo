@@ -38,6 +38,7 @@ const sections = {
 
     @media (max-width: 420px) {
       margin: 0;
+      min-width: auto;
     }
   `,
   pull: styled.li`
