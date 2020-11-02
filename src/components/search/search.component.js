@@ -64,13 +64,13 @@ const sections = {
 
 const Search = ({repo}) => {
   const dispatch = useRepositoryDispatch();
-  const [searchTerm, setSearchTerm] = useState(undefined);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchSearchResults = async (query) => {
     try {
       let response;
 
-      if (query) {
+      if (Boolean(query)) {
         response = await axios(`${SEARCH_URL}?q=repo:${repo}+${query}&type=pr`);
       } else {
         response = await axios(`${SEARCH_URL}?q=repo:${repo}&type=pr`);
@@ -89,7 +89,14 @@ const Search = ({repo}) => {
   };
 
   const handleResetFilterClick = () => {
-    fetchSearchResults(undefined);
+    fetchSearchResults();
+    setSearchTerm('');
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      fetchSearchResults(searchTerm);
+    }
   };
 
   return (
@@ -99,7 +106,9 @@ const Search = ({repo}) => {
           id="searchTerm"
           type="text"
           onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTerm}
           placeholder="something+in:title"
+          onKeyDown={handleKeyDown}
         />
         <sections.buttons>
           <sections.button type="button" value="Filter" onClick={handleFilterPullsClick} />
