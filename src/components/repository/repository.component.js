@@ -19,6 +19,11 @@ const sections = {
     flex-direction: column;
     align-items: flex-start;
     align-content: center;
+
+    @media (max-width: 420px) {
+      padding: 1rem;
+      margin: 0.4rem;
+    }
   `,
   header: styled.div``,
   title: styled.h5`
@@ -29,6 +34,10 @@ const sections = {
     list-style: none;
     padding: 0;
     text-align: left;
+
+    @media (max-width: 420px) {
+      margin: 0;
+    }
   `,
   pull: styled.li`
     margin: 1rem 0;

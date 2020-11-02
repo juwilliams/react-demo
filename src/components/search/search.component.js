@@ -19,6 +19,12 @@ const sections = {
   searchControls: styled.div`
     display: flex;
     align-items: center;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: flex-end;
+      align-self: center;
+    }
   `,
   filter: styled.input`
     border: 1px solid #bbb;
@@ -26,10 +32,15 @@ const sections = {
     background-color: #282c34;
     color: #fff;
     padding: 0.4rem 1rem;
-    margin: 0.4rem 0.2rem 0.4rem 0;
+    margin: 0.4rem 0 0.4rem 0;
     height: 1.2rem;
     min-width: 320px;
     line-height: 1.2rem;
+
+    @media (max-width: 420px) {
+      justify-self: center;
+      min-width: 300px;
+    }
   `,
   buttons: styled.div``,
   button: styled.input`
@@ -44,6 +55,10 @@ const sections = {
   searchInfo: styled.a`
     color: #fff;
     font-size: 0.8rem;
+
+    @media (max-width: 420px) {
+      justify-self: flex-start;
+    }
   `,
 };
 

@@ -16,6 +16,11 @@ const sections = {
     margin-top: 1rem;
     min-width: 320px;
     max-width: 800px;
+
+    @media (max-width: 420px) {
+      margin: 0.2rem;
+      min-width: auto;
+    }
   `,
   title: styled.div`
     ${baseStyles};
