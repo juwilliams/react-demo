@@ -1,8 +1,5 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components';
-
-import {useRepository} from 'state/repository.state';
-import {fetchPulls} from 'api/github';
 
 import Commits from 'components/commits/commits.component';
 const baseStyles = css`
@@ -33,29 +30,13 @@ const sections = {
   `,
 };
 
-const Pull = ({repo, id}) => {
-  const [state, dispatch] = useRepository();
-
-  const {isLoading, error, pulls} = state;
-
-  const pull = pulls?.find((p) => p.id.toString() === id);
-
-  useEffect(() => {
-    //  this is a deep linked request, we need to fetch pulls
-    if (!pulls && !isLoading) {
-      fetchPulls({repo, dispatch});
-    }
-  }, [isLoading, dispatch, pulls, repo]);
-
-  if (isLoading || !pull) return <div>Loading...</div>;
-  if (error) return <div>Oops.. something went wrong</div>;
-
+const Pull = ({pull, commits}) => {
   return (
     <sections.root>
-      <sections.title>{pull.title}</sections.title>
-      <sections.body>{pull.body}</sections.body>
-      <sections.commits>
-        <Commits url={pull.commits_url} />
+      <sections.title data-testid="pull-title">{pull.title}</sections.title>
+      <sections.body data-testid="pull-body">{pull.body}</sections.body>
+      <sections.commits data-testid="pull-commits">
+        <Commits url={pull.commits_url} commits={commits} />
       </sections.commits>
     </sections.root>
   );

@@ -52,9 +52,13 @@ const sections = {
 
 const Pull = ({repo, pull}) => {
   return (
-    <sections.pull>
+    <sections.pull data-testid={pull.id}>
       <sections.pullTitle>
-        <Link to={`/repo/${encodeURIComponent(repo)}/pulls/${pull.id}`}>{pull.title}</Link>
+        <Link
+          to={`/repo/${encodeURIComponent(repo)}/pulls/${pull.id}`}
+          data-testid={`link-${pull.id}`}>
+          {pull.title}
+        </Link>
       </sections.pullTitle>
       <sections.pullCreatedAt>{moment(pull.created_at).fromNow()}</sections.pullCreatedAt>
       {pull.labels?.map((label) => (

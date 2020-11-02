@@ -59,26 +59,10 @@ export const Commit = ({data}) => {
   );
 };
 
-const Commits = ({url}) => {
-  const [state, dispatch] = useRepository();
-
-  const {isLoading, error, commits} = state;
-
-  useEffect(() => {
-    if (url && !commits && !isLoading) {
-      fetchCommits({url, dispatch});
-    }
-    return () => dispatch(actions.setCommits(undefined));
-  }, [isLoading, commits, dispatch, url]);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Oops.. something went wrong.</div>;
-
+const Commits = ({commits}) => {
   return (
     <sections.root>
       <sections.title>Commits</sections.title>
-      {isLoading && <div>Fetching commits...</div>}
-      {error && <div>{error}</div>}
       {commits?.map((data) => (
         <Commit key={data.commit.tree.sha} data={data} />
       ))}
