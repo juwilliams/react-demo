@@ -1,10 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import styled, {css} from 'styled-components';
 import moment from 'moment';
-
-import {fetchPulls} from 'api/github';
-import {useRepository} from 'state/repository.state';
 
 const baseStyles = {
   pullData: css`
@@ -67,20 +64,9 @@ const Pull = ({repo, pull}) => {
   );
 };
 
-const Repository = ({repo}) => {
-  const [state, dispatch] = useRepository();
-
-  const {isLoading, error, filter, pulls} = state;
-
-  useEffect(() => {
-    fetchPulls({repo, dispatch});
-  }, [filter, dispatch, repo]);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Oops.. something went wrong</div>;
-
+const Repository = ({repo, pulls}) => {
   return (
-    <sections.root>
+    <sections.root data-testid="repository">
       <sections.header>
         <sections.title>Pull Requests</sections.title>
       </sections.header>
