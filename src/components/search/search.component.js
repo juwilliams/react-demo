@@ -72,7 +72,6 @@ const Search = ({repo}) => {
 
   return (
     <sections.root>
-      <label htmlFor="searchTerm">Pull Requests</label>
       <sections.searchControls>
         <sections.filter
           id="searchTerm"

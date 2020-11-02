@@ -1,5 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const sections = {
+  root: styled.div``,
+};
 
 export const Commit = ({data}) => {
   const {author, commit} = data;
@@ -39,14 +44,14 @@ const Commits = ({url}) => {
   }, [url]);
 
   return (
-    <>
+    <sections.root>
       <h5>Commits</h5>
       {isFetchingCommits && <div>Fetching commits...</div>}
       {error && <div>{error}</div>}
       {commits.map((data) => (
         <Commit key={data.commit.tree.sha} data={data} />
       ))}
-    </>
+    </sections.root>
   );
 };
 

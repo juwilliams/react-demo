@@ -80,7 +80,6 @@ const Repository = ({repo}) => {
         dispatch(actions.setLoading(true));
         const response = await axios(`${GITHUB_REPO_API_URI}/${repo}/pulls?q=${filter}`);
         if (response && response.status === 200) {
-          console.log('response', response);
           dispatch(actions.setRepositoryPulls(response.data));
         }
       } catch (err) {
